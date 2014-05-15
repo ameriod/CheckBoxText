@@ -25,24 +25,26 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
         CheckBoxText checkBoxText = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_BELOW);
         checkBoxText.setLayoutParams(params);
         checkBoxText.setText("BELOW");
-        checkBoxText.setTextColor(Color.BLACK);
-        CheckBoxText checkBoxText1 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_ABOVE);
-        checkBoxText1.setLayoutParams(params);
-        checkBoxText1.setText("ABOVE");
-        checkBoxText1.setTextColor(Color.BLACK);
+        checkBoxText.setTextColor(Color.WHITE);
+
         CheckBoxText checkBoxText2 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_LEFT);
         checkBoxText2.setLayoutParams(params);
         checkBoxText2.setText("LEFT");
-        checkBoxText2.setTextColor(Color.BLACK);
+        checkBoxText2.setTextColor(Color.WHITE);
         CheckBoxText checkBoxText3 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_RIGHT);
         checkBoxText3.setLayoutParams(params);
         checkBoxText3.setText("RIGHT");
-        checkBoxText3.setTextColor(Color.BLACK);
+        checkBoxText3.setTextColor(Color.WHITE);
+
+        CheckBoxText checkBoxText1 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_ABOVE);
+        checkBoxText1.setLayoutParams(params);
+        checkBoxText1.setText("ABOVE");
+        checkBoxText1.setTextColor(Color.WHITE);
 
         container.addView(checkBoxText);
-        container.addView(checkBoxText1);
         container.addView(checkBoxText2);
         container.addView(checkBoxText3);
+        container.addView(checkBoxText1);
 
         checkBoxText.setOnCheckedChangeListener(this);
         checkBoxText1.setOnCheckedChangeListener(this);
