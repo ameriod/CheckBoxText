@@ -26,7 +26,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     /**
      * Listener to forward CompoundButton onCheckChangeListener stuff to the checkbox
-     *
      */
     private CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener;
     /**
@@ -157,6 +156,10 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     public void setText(int resId) {
         mTextView.setText(resId);
         mCheckBox.setTag(getContext().getString(resId));
+    }
+
+    public CharSequence getText() {
+        return mTextView.getText();
     }
 
     /**
