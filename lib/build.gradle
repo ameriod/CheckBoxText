@@ -10,6 +10,11 @@ android {
         versionCode 1
         versionName "0.1"
     }
+
+    version = "0.1"
+    group = "com.ameriod.lib"
+    artifactId = 'CheckBoxText'
+
     buildTypes {
         release {
             runProguard false
