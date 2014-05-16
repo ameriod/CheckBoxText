@@ -3,7 +3,6 @@ package com.ameriod.checkboxtext.lib;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -16,8 +15,6 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Parker on 5/14/2014.
@@ -125,11 +122,11 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     private void build() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         if (mTextOrientation == TEXT_BELOW) {
-            inflater.inflate(R.layout.checkbox_text_bottom, this, true);
+            inflater.inflate(R.layout.checkbox_text_below, this, true);
         } else if (mTextOrientation == TEXT_LEFT) {
             inflater.inflate(R.layout.checkbox_text_left, this, true);
         } else if (mTextOrientation == TEXT_ABOVE) {
-            inflater.inflate(R.layout.checkbox_text_top, this, true);
+            inflater.inflate(R.layout.checkbox_text_above, this, true);
         } else if (mTextOrientation == TEXT_RIGHT) {
             inflater.inflate(R.layout.checkbox_text_right, this, true);
         } else {
