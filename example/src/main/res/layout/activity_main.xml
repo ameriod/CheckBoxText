@@ -16,10 +16,38 @@
         android:layout_height="wrap_content" />
 
     <com.ameriod.checkboxtext.lib.CheckBoxText
-        custom:text="This is set by a resource file"
+        custom:text="Res Right"
+        custom:orientation="right"
         custom:textColor="@android:color/white"
         custom:textSize="20sp"
         custom:textStyle="bold|italic"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <com.ameriod.checkboxtext.lib.CheckBoxText
+        custom:text="Res Above"
+        custom:orientation="above"
+        custom:textColor="@android:color/white"
+        custom:textSize="20sp"
+        custom:textStyle="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.ameriod.checkboxtext.lib.CheckBoxText
+        custom:text="Res Left"
+        custom:orientation="left"
+        custom:textColor="@android:color/white"
+        custom:textSize="20sp"
+        custom:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.ameriod.checkboxtext.lib.CheckBoxText
+        custom:text="Res Below"
+        custom:orientation="below"
+        custom:textColor="@android:color/white"
+        custom:textSize="20sp"
+        custom:textStyle="italic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
