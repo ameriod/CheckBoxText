@@ -299,9 +299,22 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * @param top
      * @param right
      * @param bottom
+     * 
      * @link CheckBox.setPadding(int left, int top, int right, int bottom)
      */
     public void setPaddingCheckBox(int left, int top, int right, int bottom) {
         mCheckBox.setPadding(left, top, right, bottom);
+    }
+
+    /**
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     *
+     * @link TextView.setPadding(int left, int top, int right, int bottom)
+     */
+    public void setPaddingTextView(int left, int top, int right, int bottom) {
+        mTextView.setPadding(left, top, right, bottom);
     }
 }
