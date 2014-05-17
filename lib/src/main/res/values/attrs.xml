@@ -3,25 +3,59 @@
     <declare-styleable name="CheckBoxText">
         <!-- TextView attrs same as a TextView-->
         <attr name="text" format="string" />
-        <attr name="textSize" format="dimension"/>
-        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color" />
         <!-- flags let us use the OR operator -->
         <attr name="textStyle">
             <flag name="normal" value="0" />
             <flag name="bold" value="1" />
             <flag name="italic" value="2" />
         </attr>
+        <attr name="typeface" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="sans" value="1" />
+            <enum name="serif" value="2" />
+            <enum name="monospace" value="3" />
+        </attr>
 
         <!-- The orientation of the TextView around the CheckBox -->
         <!-- use a enum to remove the choice of a OR operator, there are no combinations for the orientation-->
         <attr name="orientation" format="enum">
-            <enum name="right" value="0"/>
-            <enum name="left" value="1"/>
-            <enum name="above" value="2"/>
-            <enum name="below" value="3"/>
+            <enum name="right" value="0" />
+            <enum name="left" value="1" />
+            <enum name="above" value="2" />
+            <enum name="below" value="3" />
         </attr>
 
+        <!-- set the padding for each element in the layout -->
+        <attr name="checkbox_padding" format="dimension"></attr>
+        <attr name="checkbox_paddingLeft" format="dimension"></attr>
+        <attr name="checkbox_paddingRight" format="dimension"></attr>
+        <attr name="checkbox_paddingTop" format="dimension"></attr>
+        <attr name="checkbox_paddingBottom" format="dimension"></attr>
 
+        <attr name="text_padding" format="dimension"></attr>
+        <attr name="text_paddingLeft" format="dimension"></attr>
+        <attr name="text_paddingRight" format="dimension"></attr>
+        <attr name="text_paddingTop" format="dimension"></attr>
+        <attr name="text_paddingBottom" format="dimension"></attr>
+
+
+        <!-- set the margins for each element in the layout -->
+        <attr name="text_margin" format="dimension"></attr>
+        <attr name="text_marginLeft" format="dimension"></attr>
+        <attr name="text_marginRight" format="dimension"></attr>
+        <attr name="text_marginTop" format="dimension"></attr>
+        <attr name="text_marginBottom" format="dimension"></attr>
+
+        <attr name="checkbox_margin" format="dimension"></attr>
+        <attr name="checkbox_marginLeft" format="dimension"></attr>
+        <attr name="checkbox_marginRight" format="dimension"></attr>
+        <attr name="checkbox_marginTop" format="dimension"></attr>
+        <attr name="checkbox_marginBottom" format="dimension"></attr>
+
+        <!-- Set if the checkbox is checked or not-->
+        <attr name="isChecked" format="boolean"></attr>
         <!-- the background of the checkbox-->
         <attr name="checkboxBackground" format="reference|color" />
     </declare-styleable>

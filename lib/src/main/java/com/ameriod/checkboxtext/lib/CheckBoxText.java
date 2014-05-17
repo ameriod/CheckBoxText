@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 /**
  * Created by Parker on 5/14/2014.
- * <p/>
- * TODO make resource attrs for the TextView Stuff textSize, textStyle, text
- * TODO make resource attrs for the CheckBox setting the drawable, padding (the custom drawables have different padding)
  */
 public class CheckBoxText extends RelativeLayout implements Checkable, View.OnClickListener {
 
@@ -30,9 +27,37 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     private int mTextOrientation;
     private float mTextSize;
     private int mTextStyle;
+    private int mTypefaceIndex;
     private String mText;
     private ColorStateList mTextColor;
-    private Drawable mCheckboxBackground;
+    private Drawable mCheckBoxBackground;
+
+    private int mCheckBoxPadding;
+    private int mCheckBoxPaddingLeft;
+    private int mCheckBoxPaddingRight;
+    private int mCheckBoxPaddingTop;
+    private int mCheckBoxPaddingBottom;
+
+    private int mTextPadding;
+    private int mTextPaddingLeft;
+    private int mTextPaddingRight;
+    private int mTextPaddingTop;
+    private int mTextPaddingBottom;
+
+    private int mCheckBoxMargin;
+    private int mCheckBoxMarginLeft;
+    private int mCheckBoxMarginRight;
+    private int mCheckBoxMarginTop;
+    private int mCheckBoxMarginBottom;
+
+    private int mTextMargin;
+    private int mTextMarginLeft;
+    private int mTextMarginRight;
+    private int mTextMarginTop;
+    private int mTextMarginBottom;
+
+    private boolean mIsChecked;
+
 
     /**
      * Listener to forward CompoundButton onCheckChangeListener stuff to the checkbox
@@ -54,6 +79,11 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * Orients the text below the checkbox
      */
     public static final int TEXT_BELOW = 3;
+
+    private static final int SANS = 1;
+    private static final int SERIF = 2;
+    private static final int MONOSPACE = 3;
+
 
     /**
      * For debugging
@@ -104,7 +134,32 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             mTextColor = a.getColorStateList(R.styleable.CheckBoxText_textColor);
             mTextStyle = a.getInt(R.styleable.CheckBoxText_textStyle, -1);
             mText = a.getString(R.styleable.CheckBoxText_text);
-            mCheckboxBackground = a.getDrawable(R.styleable.CheckBoxText_checkboxBackground);
+            mCheckBoxBackground = a.getDrawable(R.styleable.CheckBoxText_checkboxBackground);
+            mIsChecked = a.getBoolean(R.styleable.CheckBoxText_isChecked, false);
+            // padding
+            mCheckBoxPadding = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_padding, 0);
+            mCheckBoxPaddingLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingLeft, 0);
+            mCheckBoxPaddingRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingRight, 0);
+            mCheckBoxPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingTop, 0);
+            mCheckBoxPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingBottom, 0);
+            mTextPadding = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_padding, 0);
+            mTextPaddingLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingLeft, 0);
+            mTextPaddingRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingRight, 0);
+            mTextPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingTop, 0);
+            mTextPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingBottom, 0);
+            // margins
+            mCheckBoxMargin = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_margin, 0);
+            mCheckBoxMarginLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginLeft, 0);
+            mCheckBoxMarginRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginRight, 0);
+            mCheckBoxMarginBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginTop, 0);
+            mCheckBoxMarginBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginBottom, 0);
+            mTextMargin = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_margin, 0);
+            mTextMarginLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_marginLeft, 0);
+            mTextMarginRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_marginRight, 0);
+            mTextMarginBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_marginTop, 0);
+            mTextMarginBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_marginBottom, 0);
+
+            mTypefaceIndex = a.getInt(R.styleable.CheckBoxText_typeface, -1);
         } finally {
             a.recycle();
         }
@@ -121,21 +176,39 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      */
     private void build() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
+        // need to check if the margins were set or not if not then set to default, we can set the
+        // margins via xml attributes
         if (mTextOrientation == TEXT_BELOW) {
             inflater.inflate(R.layout.checkbox_text_below, this, true);
+            if (mCheckBoxMarginBottom == 0) {
+                mCheckBoxMarginBottom = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_vertical_below);
+            }
         } else if (mTextOrientation == TEXT_LEFT) {
             inflater.inflate(R.layout.checkbox_text_left, this, true);
+            if (mTextMarginLeft == 0) {
+                mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_left);
+            }
         } else if (mTextOrientation == TEXT_ABOVE) {
             inflater.inflate(R.layout.checkbox_text_above, this, true);
+            if (mTextMarginBottom == 0) {
+                mTextMarginBottom = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_vertical_above);
+            }
         } else if (mTextOrientation == TEXT_RIGHT) {
             inflater.inflate(R.layout.checkbox_text_right, this, true);
+            if (mTextMarginRight == 0) {
+                mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_right);
+            }
         } else {
             // default to right orientation
             inflater.inflate(R.layout.checkbox_text_right, this, true);
+            if (mTextMarginRight == 0) {
+                mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_right);
+            }
         }
 
         mCheckBox = (CheckBox) findViewById(R.id.checkbox_text_box);
         mTextView = (TextView) findViewById(R.id.checkbox_text_text);
+
         // make everything clickable
         setOnClickListener(this);
         mCheckBox.setOnClickListener(this);
@@ -146,8 +219,15 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             setTextSize(mTextSize);
         }
 
+        Typeface typeface = getTypefaceByIndex(mTypefaceIndex);
+
         if (mTextStyle > 0) {
-            setTypeface(null, mTextStyle);
+            setTypeface(typeface, mTextStyle);
+        } else {
+            // no textStyle so set to normal but only do this when the textStyle has not been set
+            if (typeface != null) {
+                setTypeface(typeface, Typeface.NORMAL);
+            }
         }
 
         if (mTextColor != null) {
@@ -158,14 +238,92 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             setText(mText);
         }
 
-        if (mCheckboxBackground != null) {
-            setBackgroundCheckBox(mCheckboxBackground);
+        if (mCheckBoxBackground != null) {
+            setBackgroundCheckBox(mCheckBoxBackground);
         }
 
+        if (mCheckBoxMarginBottom == 0) {
+            mCheckBoxPaddingBottom = mCheckBoxPadding;
+        }
+        if (mCheckBoxPaddingTop == 0) {
+            mCheckBoxPaddingTop = mCheckBoxPadding;
+        }
+        if (mCheckBoxPaddingRight == 0) {
+            mCheckBoxPaddingRight = mCheckBoxPadding;
+        }
+        if (mCheckBoxPaddingLeft == 0) {
+            mCheckBoxPaddingLeft = mCheckBoxPadding;
+        }
+        setPaddingCheckBox(mCheckBoxPaddingBottom, mCheckBoxPaddingTop, mCheckBoxPaddingRight, mCheckBoxPaddingBottom);
+
+        if (mTextPaddingBottom == 0) {
+            mTextPaddingBottom = mTextPadding;
+        }
+        if (mTextPaddingTop == 0) {
+            mTextPaddingTop = mTextPadding;
+        }
+        if (mTextPaddingRight == 0) {
+            mTextPaddingRight = mTextPadding;
+        }
+        if (mTextPaddingLeft == 0) {
+            mTextPaddingLeft = mTextPadding;
+        }
+        setPaddingText(mTextPaddingBottom, mTextPaddingTop, mTextPaddingRight, mTextMarginBottom);
+
+        if (mCheckBoxMarginBottom == 0) {
+            mCheckBoxMarginBottom = mCheckBoxMargin;
+        }
+        if (mCheckBoxMarginTop == 0) {
+            mCheckBoxMarginTop = mCheckBoxMargin;
+        }
+        if (mCheckBoxMarginRight == 0) {
+            mCheckBoxMarginRight = mCheckBoxMargin;
+        }
+        if (mCheckBoxMarginLeft == 0) {
+            mCheckBoxMarginLeft = mCheckBoxMargin;
+        }
+
+        RelativeLayout.LayoutParams paramsCheckBox = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        paramsCheckBox.setMargins(mCheckBoxMarginLeft, mCheckBoxMarginTop, mCheckBoxMarginRight, mCheckBoxMarginBottom);
+        mCheckBox.setLayoutParams(paramsCheckBox);
+
+        if (mTextMarginBottom == 0) {
+            mTextMarginBottom = mTextMargin;
+        }
+        if (mTextMarginTop == 0) {
+            mTextMarginTop = mTextMargin;
+        }
+        if (mTextMarginRight == 0) {
+            mTextMarginRight = mTextMargin;
+        }
+        if (mTextMarginLeft == 0) {
+            mTextMarginLeft = mTextPadding;
+        }
+
+        setChecked(mIsChecked);
+
         // set the mCheckBox tag to the mTextView text
-        mCheckBox.setTag(mTextView.getText().toString());
+        mCheckBox.setTag(getText().toString());
         // set the checkbox text to blank
         mCheckBox.setText("");
+    }
+
+    private Typeface getTypefaceByIndex(int typefaceIndex) {
+        Typeface tf = null;
+        switch (typefaceIndex) {
+            case SANS:
+                tf = Typeface.SANS_SERIF;
+                break;
+
+            case SERIF:
+                tf = Typeface.SERIF;
+                break;
+
+            case MONOSPACE:
+                tf = Typeface.MONOSPACE;
+                break;
+        }
+        return tf;
     }
 
 
@@ -216,7 +374,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * @param text
      */
     public void setText(String text) {
-        mText = text;
         mTextView.setText(text);
         mCheckBox.setTag(text);
     }
@@ -229,7 +386,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     public void setText(int resId) {
         mTextView.setText(resId);
         String text = getContext().getString(resId);
-        mText = text;
         mCheckBox.setTag(text);
     }
 
@@ -248,6 +404,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     public void setTypeface(Typeface tf, int style) {
         mTextView.setTypeface(tf, style);
     }
+
     /**
      * @param size
      * @link TextView.setTextSize(float size)
@@ -256,13 +413,15 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         mTextView.setTextSize(size);
     }
 
+    public float getTextSize() {
+        return mTextView.getTextSize();
+    }
 
     public void setTextColor(int color) {
         mTextView.setTextColor(color);
     }
 
     public void setTextColor(ColorStateList textColorStateList) {
-        mTextColor = textColorStateList;
         mTextView.setTextColor(textColorStateList);
     }
 
@@ -279,6 +438,10 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         mCheckBox.setBackgroundResource(resId);
     }
 
+    public Drawable getBackgroundCheckBox() {
+        return mCheckBox.getBackground();
+    }
+
     @SuppressWarnings("NewApi")
     /**
      * @link CheckBox.setBackground(Drawable background)
@@ -286,7 +449,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * @parama background
      */
     public void setBackgroundCheckBox(Drawable background) {
-        mCheckboxBackground = background;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mCheckBox.setBackground(background);
         } else {
@@ -299,7 +461,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * @param top
      * @param right
      * @param bottom
-     * 
      * @link CheckBox.setPadding(int left, int top, int right, int bottom)
      */
     public void setPaddingCheckBox(int left, int top, int right, int bottom) {
@@ -311,10 +472,9 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * @param top
      * @param right
      * @param bottom
-     *
      * @link TextView.setPadding(int left, int top, int right, int bottom)
      */
-    public void setPaddingTextView(int left, int top, int right, int bottom) {
+    public void setPaddingText(int left, int top, int right, int bottom) {
         mTextView.setPadding(left, top, right, bottom);
     }
 }
