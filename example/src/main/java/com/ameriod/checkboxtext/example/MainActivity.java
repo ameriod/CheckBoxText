@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
-import com.ameriod.checkboxtext.lib.CheckBoxText;
+import com.ameriod.lib.checkboxtext.CheckBoxText;
 
 
 public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {

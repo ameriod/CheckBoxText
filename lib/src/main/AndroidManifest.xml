@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ameriod.checkboxtext.lib">
+    package="com.ameriod.lib.checkboxtext">
 
     <application>
 
