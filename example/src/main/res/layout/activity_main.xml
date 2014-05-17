@@ -9,45 +9,13 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/container">
 
-
-    <CheckBox
-        android:text="NORMAL CHECKBOX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <com.ameriod.checkboxtext.lib.CheckBoxText
-        custom:text="Res Right"
-        custom:orientation="right"
+        custom:text="Res Below"
+        custom:orientation="below"
         custom:textColor="@android:color/white"
         custom:textSize="12sp"
         custom:textStyle="bold|italic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.ameriod.checkboxtext.lib.CheckBoxText
-        custom:text="Res Above"
-        custom:orientation="above"
-        custom:textColor="@android:color/white"
-        custom:textSize="12sp"
-        custom:textStyle="normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <com.ameriod.checkboxtext.lib.CheckBoxText
-        custom:text="Res Left"
-        custom:orientation="left"
-        custom:textColor="@android:color/white"
-        custom:textSize="12sp"
-        custom:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <com.ameriod.checkboxtext.lib.CheckBoxText
-        custom:text="Res Below"
-        custom:orientation="below"
-        custom:textColor="@android:color/white"
-        custom:textSize="15sp"
-        custom:textStyle="italic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -176,34 +177,48 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      */
     private void build() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
+        inflater.inflate(R.layout.checkbox_text_layout, this, true);
         // need to check if the margins were set or not if not then set to default, we can set the
         // margins via xml attributes
+        mTextView = new TextView(getContext());
+        mCheckBox = new CheckBox(getContext());
+
+        RelativeLayout.LayoutParams paramsCheckBox = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        paramsCheckBox.setMargins(mCheckBoxMarginLeft, mCheckBoxMarginTop, mCheckBoxMarginRight, mCheckBoxMarginBottom);
+
+        RelativeLayout.LayoutParams paramsText = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        paramsText.setMargins(mTextMarginLeft, mTextMarginTop, mTextMarginRight, mTextMarginBottom);
+
         if (mTextOrientation == TEXT_BELOW) {
-            inflater.inflate(R.layout.checkbox_text_below, this, true);
             if (mCheckBoxMarginBottom == 0) {
                 mCheckBoxMarginBottom = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_vertical_below);
             }
+            paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            paramsText.addRule(RelativeLayout.BELOW, R.id.checkbox_text_box);
         } else if (mTextOrientation == TEXT_LEFT) {
-            inflater.inflate(R.layout.checkbox_text_left, this, true);
             if (mTextMarginLeft == 0) {
                 mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_left);
             }
+            paramsCheckBox.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_text);
+            paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
+            paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
+            paramsText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         } else if (mTextOrientation == TEXT_ABOVE) {
-            inflater.inflate(R.layout.checkbox_text_above, this, true);
             if (mTextMarginBottom == 0) {
                 mTextMarginBottom = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_vertical_above);
             }
-        } else if (mTextOrientation == TEXT_RIGHT) {
-            inflater.inflate(R.layout.checkbox_text_right, this, true);
-            if (mTextMarginRight == 0) {
-                mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_right);
-            }
+            paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            paramsCheckBox.addRule(RelativeLayout.BELOW, R.id.checkbox_text_text);
         } else {
             // default to right orientation
-            inflater.inflate(R.layout.checkbox_text_right, this, true);
             if (mTextMarginRight == 0) {
                 mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_right);
             }
+            paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
+            paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
+            paramsText.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_box);
         }
 
         mCheckBox = (CheckBox) findViewById(R.id.checkbox_text_box);
@@ -283,8 +298,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             mCheckBoxMarginLeft = mCheckBoxMargin;
         }
 
-        RelativeLayout.LayoutParams paramsCheckBox = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        paramsCheckBox.setMargins(mCheckBoxMarginLeft, mCheckBoxMarginTop, mCheckBoxMarginRight, mCheckBoxMarginBottom);
         mCheckBox.setLayoutParams(paramsCheckBox);
 
         if (mTextMarginBottom == 0) {
@@ -299,6 +312,8 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         if (mTextMarginLeft == 0) {
             mTextMarginLeft = mTextPadding;
         }
+
+        mTextView.setLayoutParams(paramsText);
 
         setChecked(mIsChecked);
 
