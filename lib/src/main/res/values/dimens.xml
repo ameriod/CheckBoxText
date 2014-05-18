@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="checkbox_text_margin_vertical_below">20dp</dimen>
+    <dimen name="checkbox_text_margin_vertical_below">0dp</dimen>
     <dimen name="checkbox_text_margin_vertical_above">0dp</dimen>
     <dimen name="checkbox_text_margin_horizontal_left">0dp</dimen>
     <dimen name="checkbox_text_margin_horizontal_right">0dp</dimen>

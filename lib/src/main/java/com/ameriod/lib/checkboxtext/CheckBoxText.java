@@ -244,7 +244,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     /**
      * Well.. Builds everything. Sets the orientations of the TextView and CheckBox and sets xml
      * view attributes on them. Sets the onClickListeners so any click on the view will be forwarded on to the CheckBox.
-     *
      */
     private void build() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -261,12 +260,12 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
             paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            paramsText.addRule(RelativeLayout.BELOW, mCheckBox.getId());
+            paramsText.addRule(RelativeLayout.BELOW, R.id.checkbox_text_box);
         } else if (mTextOrientation == TEXT_LEFT) {
             if (mTextMarginLeft == 0) {
                 mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_left);
             }
-            paramsCheckBox.addRule(RelativeLayout.RIGHT_OF, mTextView.getId());
+            paramsCheckBox.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_text);
             paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -276,7 +275,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
             paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            paramsCheckBox.addRule(RelativeLayout.BELOW, mTextView.getId());
+            paramsCheckBox.addRule(RelativeLayout.BELOW, R.id.checkbox_text_text);
         } else {
             // default to right orientation
             if (mTextMarginRight == 0) {
@@ -284,7 +283,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
-            paramsText.addRule(RelativeLayout.RIGHT_OF, mCheckBox.getId());
+            paramsText.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_box);
         }
 
         // set the margins

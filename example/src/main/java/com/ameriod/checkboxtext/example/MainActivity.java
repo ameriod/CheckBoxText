@@ -1,13 +1,11 @@
 package com.ameriod.checkboxtext.example;
 
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ameriod.lib.checkboxtext.CheckBoxText;
 
@@ -19,42 +17,20 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout container = (LinearLayout) findViewById(R.id.container);
+        CheckBoxText below = (CheckBoxText) findViewById(R.id.below);
+        CheckBoxText left = (CheckBoxText) findViewById(R.id.left);
+        CheckBoxText right = (CheckBoxText) findViewById(R.id.right);
+        CheckBoxText above = (CheckBoxText) findViewById(R.id.above);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        CheckBoxText checkBoxText = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_BELOW);
-        checkBoxText.setLayoutParams(params);
-        checkBoxText.setText("BELOW");
-        checkBoxText.setTextColor(Color.WHITE);
-
-        CheckBoxText checkBoxText2 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_LEFT);
-        checkBoxText2.setLayoutParams(params);
-        checkBoxText2.setText("LEFT");
-        checkBoxText2.setTextColor(Color.WHITE);
-        CheckBoxText checkBoxText3 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_RIGHT);
-        checkBoxText3.setLayoutParams(params);
-        checkBoxText3.setText("RIGHT");
-        checkBoxText3.setTextColor(Color.WHITE);
-
-        CheckBoxText checkBoxText1 = new CheckBoxText(getApplicationContext(), CheckBoxText.TEXT_ABOVE);
-        checkBoxText1.setLayoutParams(params);
-        checkBoxText1.setText("ABOVE");
-        checkBoxText1.setTextColor(Color.WHITE);
-
-        container.addView(checkBoxText);
-        container.addView(checkBoxText2);
-        container.addView(checkBoxText3);
-        container.addView(checkBoxText1);
-
-        checkBoxText.setOnCheckedChangeListener(this);
-        checkBoxText1.setOnCheckedChangeListener(this);
-        checkBoxText2.setOnCheckedChangeListener(this);
-        checkBoxText3.setOnCheckedChangeListener(this);
+        below.setOnCheckedChangeListener(this);
+        left.setOnCheckedChangeListener(this);
+        right.setOnCheckedChangeListener(this);
+        above.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        Log.e("TEST", "TAG " + buttonView.getTag() + " isChecked " + isChecked);
+        Toast.makeText(getApplicationContext(), buttonView.getTag().toString() + " Checked: " + isChecked, Toast.LENGTH_SHORT).show();
     }
 
     @Override
