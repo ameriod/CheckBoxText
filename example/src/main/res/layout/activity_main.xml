@@ -12,15 +12,13 @@
         android:id="@+id/below"
         custom:text="CheckTextBox Below"
         custom:orientation="below"
-        custom:textColor="@android:color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.ameriod.lib.checkboxtext.CheckBoxText
         android:id="@+id/left"
         custom:text="CheckTextBox Left"
         custom:orientation="left"
-        custom:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -28,7 +26,6 @@
         android:id="@+id/right"
         custom:text="CheckTextBox Right"
         custom:orientation="right"
-        custom:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -36,8 +33,15 @@
         android:id="@+id/above"
         custom:text="CheckTextBox Above"
         custom:orientation="above"
-        custom:textColor="@android:color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <com.ameriod.lib.checkboxtext.CheckBoxText
+        android:id="@+id/styled"
+        custom:text="CheckTextBox Styled"
+        custom:orientation="right"
+        custom:textAppearance="@style/CheckBoxText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

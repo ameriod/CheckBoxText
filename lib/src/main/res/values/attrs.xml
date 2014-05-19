@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CheckBoxText">
+
+        <!-- Set all of the textStyles via TextAppearance -->
+        <attr name="textAppearance" format="reference" />
         <!-- TextView attrs same as a TextView-->
         <attr name="text" format="string" />
-        <attr name="textSize" format="dimension" />
-        <attr name="textColor" format="color" />
-        <!-- flags let us use the OR operator -->
-        <attr name="textStyle">
-            <flag name="normal" value="0" />
-            <flag name="bold" value="1" />
-            <flag name="italic" value="2" />
-        </attr>
-        <attr name="typeface" format="enum">
-            <enum name="normal" value="0" />
-            <enum name="sans" value="1" />
-            <enum name="serif" value="2" />
-            <enum name="monospace" value="3" />
-        </attr>
 
         <!-- The orientation of the TextView around the CheckBox -->
         <!-- use a enum to remove the choice of a OR operator, there are no combinations for the orientation-->

@@ -5,4 +5,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- Put the Text styling here, anything that works for a normal TextView will work-->
+    <style name="CheckBoxText" parent="android:TextAppearance.Small">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
 </resources>

@@ -42,15 +42,13 @@ import android.widget.TextView;
  * will return an empty string. I have forwarded the actual text showing by the CheckBoxText into the
  * tag of the compoundButton (this is automatically done).
  * <p/>
- * Some of the CheckBox and TextView xml attributes are forwarded when setting the view from xml,
- * there are corresponding methods to everything but the setting of the internal margins of the
- * TextView and CheckBox.
+ * Some of the CheckBox (setting of the background and isChecked)and TextView (setting the text and
+ * the TextAppearance) xml attributes are forwarded when setting the view from xml, there are
+ * corresponding methods to everything but the setting of the internal margins of the TextView and
+ * CheckBox. To set the TextAppearance create a style and any TextView xml attributes can be set.
  * <p/>
- * For the TextView:
- * textSize
- * textStyle
- * typeface
- * textColor
+ * TextView xml attributes:
+ * text (sets the text)
  * padding
  * paddingLeft
  * paddingRight
@@ -62,7 +60,7 @@ import android.widget.TextView;
  * layout_marginTop (text_marginTop)
  * layout_marginBottom (text_marginBottom)
  * <p/>
- * For the CheckBox
+ * CheckBox xml attributes:
  * isChecked
  * background (checkbox_background)
  * padding
@@ -76,7 +74,6 @@ import android.widget.TextView;
  * layout_marginTop (checkbox_marginTop)
  * layout_marginBottom (checkbox_marginBottom)
  * <p/>
- * <p/>
  * Setting the margins will mess up the views but since CheckBox view seems to behave differently with
  * each API level (the default CheckBox drawables have different amounts of padding on them) the
  * margins may need to be adjusted. Also using custom checkbox drawables could mess up the TextView
@@ -88,12 +85,9 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     private CheckBox mCheckBox;
     private TextView mTextView;
 
+    private int mTextAppearanceResId;
     private int mTextOrientation;
-    private float mTextSize;
-    private int mTextStyle;
-    private int mTypefaceIndex;
     private String mText;
-    private ColorStateList mTextColor;
     private Drawable mCheckBoxBackground;
 
     private int mCheckBoxPadding;
@@ -142,12 +136,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * Orients the text below the checkbox
      */
     public static final int TEXT_BELOW = 3;
-
-    //From TextView typeface attr and constants
-    private static final int SANS = 1;
-    private static final int SERIF = 2;
-    private static final int MONOSPACE = 3;
-
 
     /**
      * For debugging
@@ -201,19 +189,20 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CheckBoxText, 0, 0);
 
         try {
-            // TextView attributes which are forwarded on to the TextView, all values match to the
-            // equivalent TextView attributes
+            // The orientation of the text around the CheckBox
             mTextOrientation = a.getInt(R.styleable.CheckBoxText_orientation, TEXT_RIGHT);
-            mTextSize = a.getDimensionPixelSize(R.styleable.CheckBoxText_textSize, -1);
-            // getColor can not handle references (They can be color state lists and single colors)
-            mTextColor = a.getColorStateList(R.styleable.CheckBoxText_textColor);
-            mTextStyle = a.getInt(R.styleable.CheckBoxText_textStyle, -1);
+
+            // TextView styling
+            mTextAppearanceResId = a.getResourceId(R.styleable.CheckBoxText_textAppearance, android.R.style.TextAppearance_Small);
+            // The actual text set in the TextView
             mText = a.getString(R.styleable.CheckBoxText_text);
-            mTypefaceIndex = a.getInt(R.styleable.CheckBoxText_typeface, -1);
-            // CheckBox attributes which are forwarded on to the CheckBox
+
+            // CheckBox background
             mCheckBoxBackground = a.getDrawable(R.styleable.CheckBoxText_checkboxBackground);
+            // boolean for the checking of the CheckBox
             mIsChecked = a.getBoolean(R.styleable.CheckBoxText_isChecked, false);
-            // padding
+
+            // Internal padding
             mCheckBoxPadding = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_padding, 0);
             mCheckBoxPaddingLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingLeft, 0);
             mCheckBoxPaddingRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_paddingRight, 0);
@@ -224,7 +213,8 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             mTextPaddingRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingRight, 0);
             mTextPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingTop, 0);
             mTextPaddingBottom = a.getDimensionPixelSize(R.styleable.CheckBoxText_text_paddingBottom, 0);
-            // margins
+
+            // Internal margins
             mCheckBoxMargin = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_margin, 0);
             mCheckBoxMarginLeft = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginLeft, 0);
             mCheckBoxMarginRight = a.getDimensionPixelSize(R.styleable.CheckBoxText_checkbox_marginRight, 0);
@@ -298,25 +288,8 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         mCheckBox.setOnClickListener(this);
         mTextView.setOnClickListener(this);
 
-        // Set the attrs that were passed in for the TextView and the CheckBox
-        if (mTextSize > 0) {
-            setTextSize(mTextSize);
-        }
-
-        Typeface typeface = getTypefaceByIndex(mTypefaceIndex);
-
-        if (mTextStyle > 0) {
-            setTypeface(typeface, mTextStyle);
-        } else {
-            // no textStyle so set to normal but only do this when the textStyle has not been set
-            if (typeface != null) {
-                setTypeface(typeface, Typeface.NORMAL);
-            }
-        }
-
-        if (mTextColor != null) {
-            setTextColor(mTextColor);
-        }
+        // set the TextView's TextAppearance
+        setTextAppearance(getContext(), mTextAppearanceResId);
 
         if (!TextUtils.isEmpty(mText)) {
             setText(mText);
@@ -401,46 +374,35 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         mCheckBox.setTag(getText().toString());
         // set the checkbox text to blank
         mCheckBox.setText("");
+        // stop error in viewing the layouts in xml
+        isInEditMode();
     }
-
-    /**
-     * Gets the TypeFace for the int value of the typefaceIndex from the xml attributes
-     *
-     * @param typefaceIndex
-     * @return
-     */
-    private Typeface getTypefaceByIndex(int typefaceIndex) {
-        Typeface tf = null;
-        switch (typefaceIndex) {
-            case SANS:
-                tf = Typeface.SANS_SERIF;
-                break;
-
-            case SERIF:
-                tf = Typeface.SERIF;
-                break;
-
-            case MONOSPACE:
-                tf = Typeface.MONOSPACE;
-                break;
-        }
-        return tf;
-    }
-
 
     @Override
+    /**
+     * Sets the CheckBox check
+     * {@link android.widget.CheckBox}
+     */
     public void setChecked(boolean checked) {
         // forward to the checkbox
         mCheckBox.setChecked(checked);
     }
 
     @Override
+    /**
+     * Returns if the CheckBox is checked
+     * {@link android.widget.CheckBox}
+     */
     public boolean isChecked() {
         // forward to the checkbox
         return mCheckBox.isChecked();
     }
 
     @Override
+    /**
+     * Toggles the CheckBox
+     * {@link android.widget.CheckBox}
+     */
     public void toggle() {
         // forward to the checkbox
         mCheckBox.toggle();
@@ -454,7 +416,6 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             this.toggle();
         }
     }
-
 
     /**
      * Register a callback to be invoked when the checked state of this button
@@ -471,6 +432,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     /**
      * Sets the button text and the mCheckBox tag to that text
+     * {@link android.widget.TextView}
      *
      * @param text
      */
@@ -481,6 +443,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     /**
      * Sets the button text with a string resId and the mCheckBox tag to that text
+     * {@link android.widget.TextView}
      *
      * @param resId
      */
@@ -491,7 +454,8 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
-     * Gets the TextView's getText() method
+     * Gets the TextView.getText() method
+     * {@link android.widget.TextView}
      *
      * @return
      */
@@ -500,25 +464,29 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
-     * @param tf
-     * @link TextView.setTypeface(Typeface tf)
+     * Forwards to TextView.setTypeface
+     *
+     * @param tf {@link android.widget.TextView}
      */
     public void setTypeface(Typeface tf) {
         mTextView.setTypeface(tf);
     }
 
     /**
+     * Forwards to TextView.setTypeface
+     * {@link android.widget.TextView}
+     *
      * @param tf
      * @param style
-     * @link TextView.setTypeface(Typeface tf, int style)
      */
     public void setTypeface(Typeface tf, int style) {
         mTextView.setTypeface(tf, style);
     }
 
     /**
-     * @param size
-     * @link TextView.setTextSize(float size)
+     * Forwards to TextView.setTextSize
+     *
+     * @param size {@link android.widget.TextView}
      */
     public void setTextSize(float size) {
         mTextView.setTextSize(size);
@@ -526,6 +494,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     /**
      * Forwards the TextView.getTextSize
+     * {@link android.widget.TextView}
      *
      * @return
      */
@@ -535,6 +504,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     /**
      * Forwards on the the TextView.setTextColor(int color)
+     * {@link android.widget.TextView}
      *
      * @param color
      */
@@ -543,7 +513,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
-     * Forwards on to the TextView.setTextColor(ColorStateList textColorStateList)
+     * Sets the TextView color by a ColorStateList{@link android.widget.TextView}
      *
      * @param textColorStateList
      */
@@ -552,14 +522,33 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
+     * Forwards to TextView.setTextSize
+     * {@link android.widget.TextView}}
+     *
      * @param size
-     * @link TextView.setTextSize(int unit, float size)
      */
     public void setTextSize(int unit, float size) {
-        mTextSize = size;
+        //mTextSize = size;
         mTextView.setTextSize(unit, size);
     }
 
+    /**
+     * Forwards to the TextView.setTextAppearance
+     * {@link android.widget.TextView}}
+     *
+     * @param context
+     * @param resId
+     */
+    public void setTextAppearance(Context context, int resId) {
+        mTextView.setTextAppearance(context, resId);
+    }
+
+    /**
+     * Sets the CheckBox background with a resourceId
+     * {@link android.widget.CheckBox}
+     *
+     * @param resId
+     */
     public void setBackgroundCheckBox(int resId) {
         mCheckBox.setBackgroundResource(resId);
     }
@@ -570,9 +559,8 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
 
     @SuppressWarnings("NewApi")
     /**
-     * Depending on the API level, sets the background drawable of the CheckBox by:
-     * @link CheckBox.setBackground(Drawable background)
-     * @link CheckBox.setBackgroundDrawable(Drawable background)
+     * Depending on the API level, sets the background drawable of the CheckBox by either setBackgroundDrawable or setBackground:
+     * {@link android.widget.CheckBox}
      *
      * @parama background
      */
@@ -585,22 +573,26 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
+     * Set the internal Padding of the CheckBox
+     * {@link android.widget.CheckBox}
+     *
      * @param left
      * @param top
      * @param right
      * @param bottom
-     * @link CheckBox.setPadding(int left, int top, int right, int bottom)
      */
     public void setPaddingCheckBox(int left, int top, int right, int bottom) {
         mCheckBox.setPadding(left, top, right, bottom);
     }
 
     /**
+     * Sets the Internal Padding of the TextView
+     * {@link android.widget.TextView}
+     *
      * @param left
      * @param top
      * @param right
      * @param bottom
-     * @link {TextView.setPadding(int left, int top, int right, int bottom)}
      */
     public void setPaddingText(int left, int top, int right, int bottom) {
         mTextView.setPadding(left, top, right, bottom);

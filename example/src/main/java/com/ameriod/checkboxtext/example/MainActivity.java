@@ -21,11 +21,13 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
         CheckBoxText left = (CheckBoxText) findViewById(R.id.left);
         CheckBoxText right = (CheckBoxText) findViewById(R.id.right);
         CheckBoxText above = (CheckBoxText) findViewById(R.id.above);
+        CheckBoxText styled = (CheckBoxText) findViewById(R.id.styled);
 
         below.setOnCheckedChangeListener(this);
         left.setOnCheckedChangeListener(this);
         right.setOnCheckedChangeListener(this);
         above.setOnCheckedChangeListener(this);
+        styled.setOnCheckedChangeListener(this);
     }
 
     @Override
