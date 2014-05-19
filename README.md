@@ -5,7 +5,7 @@ CheckBoxText is a simple view that will allow the text of a CheckBox to be set t
 <p>
 CheckBoxText view implements Checkable and uses the CompoundButton.OnCheckedChangeListener just like the real CheckBox view. However, within the OnCheckChangeListener the compoundButton.getText() will return an empty string. I have forwarded the actual text showing by the CheckBoxText into the tag of the compoundButton (this is automatically done).
 <p>
-Some of the CheckBox (setting of the background and isChecked)and TextView (setting the text and the TextAppearance) xml attributes are forwarded when setting the view from xml, there are corresponding methods to everything but the setting of the internal margins of the TextView and heckBox. To set the TextAppearance create a style and any TextView xml attributes can be set.
+Some of the CheckBox (setting of the background and isChecked)and TextView (setting the text and the TextAppearance) xml attributes are forwarded when setting the view from xml, there are corresponding methods to everything but the setting of the internal margins of the TextView and CheckBox. To set the TextAppearance create a style and any TextView xml attributes can be set.
 <p>
 TextView xml attributes:
 <ul>
