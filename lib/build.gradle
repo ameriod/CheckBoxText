@@ -12,8 +12,8 @@ android {
     }
 
     version = "0.2"
+    artifactId = 'checkboxtext'
     group = "com.ameriod.lib"
-    artifactId = 'CheckBoxText'
 
     buildTypes {
         release {
@@ -25,5 +25,4 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
 }

@@ -235,10 +235,14 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
      * view attributes on them. Sets the onClickListeners so any click on the view will be forwarded on to the CheckBox.
      */
     private void build() {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(R.layout.checkbox_text_layout, this, true);
-
+        mCheckBox = new CheckBox(getContext());
+        mCheckBox.setId(1);
+        mTextView = new TextView(getContext());
+        mTextView.setId(2);
         // set the layout params programmatically due to setting the margins in the xml attributes
+        this.addView(mCheckBox);
+        this.addView(mTextView);
+
         RelativeLayout.LayoutParams paramsCheckBox = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams paramsText = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
@@ -249,12 +253,12 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
             paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            paramsText.addRule(RelativeLayout.BELOW, R.id.checkbox_text_box);
+            paramsText.addRule(RelativeLayout.BELOW, mCheckBox.getId());
         } else if (mTextOrientation == TEXT_LEFT) {
             if (mTextMarginLeft == 0) {
                 mTextMarginRight = getResources().getDimensionPixelSize(R.dimen.checkbox_text_margin_horizontal_left);
             }
-            paramsCheckBox.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_text);
+            paramsCheckBox.addRule(RelativeLayout.RIGHT_OF, mTextView.getId());
             paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -264,7 +268,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_HORIZONTAL);
             paramsText.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            paramsCheckBox.addRule(RelativeLayout.BELOW, R.id.checkbox_text_text);
+            paramsCheckBox.addRule(RelativeLayout.BELOW, mTextView.getId());
         } else {
             // default to right orientation
             if (mTextMarginRight == 0) {
@@ -272,15 +276,12 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
             }
             paramsCheckBox.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsText.addRule(RelativeLayout.CENTER_VERTICAL);
-            paramsText.addRule(RelativeLayout.RIGHT_OF, R.id.checkbox_text_box);
+            paramsText.addRule(RelativeLayout.RIGHT_OF, mCheckBox.getId());
         }
 
         // set the margins
         paramsText.setMargins(mTextMarginLeft, mTextMarginTop, mTextMarginRight, mTextMarginBottom);
         paramsCheckBox.setMargins(mCheckBoxMarginLeft, mCheckBoxMarginTop, mCheckBoxMarginRight, mCheckBoxMarginBottom);
-
-        mCheckBox = (CheckBox) findViewById(R.id.checkbox_text_box);
-        mTextView = (TextView) findViewById(R.id.checkbox_text_text);
 
         // make everything clickable
         setOnClickListener(this);
