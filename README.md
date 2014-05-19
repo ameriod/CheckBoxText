@@ -1,7 +1,7 @@
 CheckBoxText
 ============
 
-CheckBoxText is a simple view that will allow the text of the CheckBox to be set to the right, left, above or below the CheckBox (there really is not any use for the left or right orientations due to the actual CheckBox and CheckTextView but they are include just in case).
+CheckBoxText is a simple view that will allow the text of a CheckBox to be set to the right, left, above or below it.
 <p>
 CheckBoxText view implements Checkable and uses the CompoundButton.OnCheckedChangeListener just like the real CheckBox view. However, within the OnCheckChangeListener the compoundButton.getText() will return an empty string. I have forwarded the actual text showing by the CheckBoxText into the tag of the compoundButton (this is automatically done).
 <p>
