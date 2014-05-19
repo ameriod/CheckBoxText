@@ -26,7 +26,7 @@ TextView xml attributes:
 CheckBox xml attributes:
 <ul>
 <li>isChecked</li>
-<li>background (checkbox_background)</li>
+<li>buttonBackground (checkbox_background)</li>
 <li>padding</li>
 <li>paddingLeft</li>
 <li>paddingRight</li>

@@ -21,7 +21,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -296,7 +295,7 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
         }
 
         if (mCheckBoxBackground != null) {
-            setBackgroundCheckBox(mCheckBoxBackground);
+            setCheckBoxDrawable(mCheckBoxBackground);
         }
 
         setChecked(mIsChecked);
@@ -544,32 +543,23 @@ public class CheckBoxText extends RelativeLayout implements Checkable, View.OnCl
     }
 
     /**
-     * Sets the CheckBox background with a resourceId
+     * Sets the CheckBox buttonBackground with a resourceId
      * {@link android.widget.CheckBox}
      *
      * @param resId
      */
-    public void setBackgroundCheckBox(int resId) {
-        mCheckBox.setBackgroundResource(resId);
+    public void setCheckBoxDrawable(int resId) {
+        mCheckBox.setButtonDrawable(resId);
     }
 
-    public Drawable getBackgroundCheckBox() {
-        return mCheckBox.getBackground();
-    }
-
-    @SuppressWarnings("NewApi")
     /**
-     * Depending on the API level, sets the background drawable of the CheckBox by either setBackgroundDrawable or setBackground:
+     * Sets the buttonDrawable of the CheckBox
      * {@link android.widget.CheckBox}
      *
      * @parama background
      */
-    public void setBackgroundCheckBox(Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mCheckBox.setBackground(background);
-        } else {
-            mCheckBox.setBackgroundDrawable(background);
-        }
+    public void setCheckBoxDrawable(Drawable checkBoxDrawable) {
+        mCheckBox.setButtonDrawable(checkBoxDrawable);
     }
 
     /**
