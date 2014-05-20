@@ -12,6 +12,7 @@ android {
     }
 
     version = "0.2"
+    // the name of the module
     artifactId = 'checkboxtext'
     group = "com.ameriod.lib"
 
