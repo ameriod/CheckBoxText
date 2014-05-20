@@ -19,7 +19,7 @@ android {
 
     repositories {
         mavenCentral()
-        // include the aar's in the libs folder as a local maven repo
+        // Include the aar's in the libs folder as a local maven repo
         flatDir {
             dirs 'libs'
         }
@@ -29,6 +29,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.+'
+    // Use this line plus the flatDir part above to use the aar
     //compile 'com.ameriod.lib:checkboxtext:0.2@aar'
     compile project(':checkboxtext')
 }
