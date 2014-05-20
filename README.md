@@ -40,3 +40,5 @@ CheckBox xml attributes:
 </ul>
 <p>
 Setting the margins will mess up the views but since CheckBox view seems to behave differently with each API level (the default CheckBox drawables have different amounts of padding on them) the margins may need to be adjusted. Also using custom checkbox drawables could mess up the TextView and CheckBox placement.
+<p>
+To use simply include the module checkboxtext in you project or use a aar like in the example project
